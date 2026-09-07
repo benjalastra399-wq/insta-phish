@@ -30,19 +30,22 @@
             align-items: center;
         }
 
+        /* --- CAMBIO SOLO EN EL TÍTULO --- */
         .logo {
             margin-top: 30px;
             margin-bottom: 20px;
             width: 175px;
-            /* Aquí aplicamos la cursiva al contenedor del logo */
-            font-style: italic; 
+            font-family: 'Instagram Sans', Arial, sans-serif;
+            font-size: 48px;
+            font-weight: 600;
+            font-style: italic; /* Cursiva como pediste */
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
         }
-
-        .logo img {
-            width: 100%;
-            /* Esto asegura que la imagen respete la cursiva si el navegador lo permite, 
-               aunque el SVG oficial ya tiene su forma. */
-        }
+        /* --- FIN DEL CAMBIO --- */
 
         .form-group {
             width: 100%;
@@ -137,10 +140,8 @@
 <body>
 
     <div class="container">
-        <!-- Logo oficial en SVG para evitar problemas de "corte" y cursiva -->
-        <div class="logo">
-            <img src="https://static.cdninstagram.com/rsrc.php/v3/yt/r/Yfc020wY07c.svg" alt="Instagram Logo">
-        </div>
+        <!-- Logo con degradado CSS y fuente cursiva -->
+        <div class="logo">Instagram</div>
 
         <form id="loginForm" onsubmit="return false;">
             <div class="form-group">
